@@ -1,0 +1,24 @@
+@media screen and (max-width: 500px) {
+    .elementMyChart{
+        width: 200px;
+        height: 220px;
+    }
+    .main-content{
+        width: 200px;
+        height: 220px;
+        flex-direction: column;
+    }
+}
+.elementMyChart {
+    margin-top: 140px;
+    position: relative;
+    height: 467px;
+    width: 438px;
+}
+
+.line-vertical-layout {
+    position: relative;
+    border-right: 1px solid #D9D9D9;
+    height: 420px;
+    top: 190px;
+}

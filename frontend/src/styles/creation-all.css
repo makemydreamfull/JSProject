@@ -1,0 +1,28 @@
+@media screen and (max-width: 1199px) {
+    .row{
+        width: 50% !important;
+    }
+}
+
+@media screen and (max-width: 706px) {
+    .row{
+        width: 100% !important;
+    }
+    .main-title{
+        font-size: 30px !important;
+    }
+}
+@media screen and (max-width: 580px) {
+
+    .main-title{
+        font-size: 23px !important;
+    }
+    #content{
+        margin-right: 1rem !important;
+        margin-left: 1rem !important;
+    }
+}
+
+
+
+
