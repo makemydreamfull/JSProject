@@ -1,6 +1,9 @@
 export class Error{
     constructor() {
-        console.log('Error')
+        this.init()
+    }
+    init(){
+
     }
 
 }

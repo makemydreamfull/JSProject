@@ -1,9 +1,13 @@
 export class CreationEditingAll {
-    constructor() {
+    constructor(openNewRoute) {
+        this.openNewRoute = openNewRoute
         this.inputTypeElement = document.getElementById('type')
+        this.inputFirstNameElement = document.getElementById('firstName')
+        this.inputSumElement = document.getElementById('sum')
+        this.inputDataElement = document.getElementById('data')
+        this.inputCommentElement = document.getElementById('comment')
         this.clickBtnUndo = document.querySelectorAll('.btn-danger')
-        this.clickBtnCreate = document.querySelectorAll('.btn-success')
-        this.inputElement = document.querySelectorAll('.form-control')
+        this.clickBtnCreate = document.getElementById('create')
         this.init()
     }
     init(){
@@ -12,7 +16,7 @@ export class CreationEditingAll {
             this.clickBtn()
             this.validForm()
         } else{
-            window.location.href = '/layout'
+            this.openNewRoute('/layout')
         }
     }
     clickBtn() {
@@ -26,49 +30,52 @@ export class CreationEditingAll {
     }
 
     validForm() {
-        let hasError = false;
-        this.inputElement[0].classList.add('is-valid')
-        this.clickBtnCreate.forEach((el,num) => {
-            el.addEventListener('click', () => {
-                console.log(!this.inputElement[1].value.match(/^[А-Я]+$/i))
-                if(!this.inputElement[1].value || !this.inputElement[1].value.match(/^[А-Я]+$/i)) {
-                    this.inputElement[1].classList.add('is-invalid')
+        this.inputTypeElement.classList.add('is-valid')
+        this.clickBtnCreate.addEventListener('click', () => {
+            let hasError=false
+                if(!this.inputFirstNameElement.value || !this.inputFirstNameElement.value.match(/^[А-Я]+$/i)) {
+                    this.inputFirstNameElement.classList.add('is-invalid')
                     hasError  = true
                 }else{
-                    this.inputElement[1].classList.remove('is-invalid')
-                    this.inputElement[1].classList.add('is-valid')
+                    this.inputFirstNameElement.classList.remove('is-invalid')
+                    this.inputFirstNameElement.classList.add('is-valid')
 
                 }
-                if(!this.inputElement[2].value || !this.inputElement[2].value.match(/^\d+$/)) {
-                    this.inputElement[2].classList.add('is-invalid')
+                if(!this.inputSumElement.value || !this.inputSumElement.value.match(/^\d+$/)) {
+                    this.inputSumElement.classList.add('is-invalid')
+                    hasError  = true
+
+                }else{
+                    this.inputSumElement.classList.remove('is-invalid')
+                    this.inputSumElement.classList.add('is-valid')
+
+                }
+                if(!this.inputDataElement.value || !this.inputDataElement.value.match(/[0-9]{2}\/[0-9]{2}\/[0-9]{4}/)) {
+                    this.inputDataElement.classList.add('is-invalid')
                     hasError  = true
                 }else{
-                    this.inputElement[2].classList.remove('is-invalid')
-                    this.inputElement[2].classList.add('is-valid')
+                    this.inputDataElement.classList.remove('is-invalid')
+                    this.inputDataElement.classList.add('is-valid')
 
                 }
-                if(!this.inputElement[3].value && !this.inputElement[3].value.match(/[0-9]{2}.[0-9]{2}.[0-9]{4}/)) {
-                    this.inputElement[3].classList.add('is-invalid')
+                if(!this.inputCommentElement.value || !this.inputCommentElement.value.match(/^[А-Я]+$/i)) {
+                    this.inputCommentElement.classList.add('is-invalid')
                     hasError  = true
                 }else{
-                    this.inputElement[3].classList.remove('is-invalid')
-                    this.inputElement[3].classList.add('is-valid')
-
-                }
-                if(!this.inputElement[4].value && !this.inputElement[4].value.match(/^[А-Я]+$/i)) {
-                    this.inputElement[4].classList.add('is-invalid')
-                    hasError  = true
-                }else{
-                    this.inputElement[4].classList.remove('is-invalid')
-                    this.inputElement[4].classList.add('is-valid')
+                    this.inputCommentElement.classList.remove('is-invalid')
+                    this.inputCommentElement.classList.add('is-valid')
 
                 }
 
-            })
-            /* Проверка формы и загрузка на бэкенд*/
-
+            if (!hasError) {
+                this.nameNewCategory()
+                this.openNewRoute('/income')
+            }
         })
 
     }
+    nameNewCategory(){
+        return this.inputFirstNameElement.value
+}
 
 }
