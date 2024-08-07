@@ -30,8 +30,6 @@ body {
     font-family: RobotoRegular, sans-serif;
 }
 
-
-
 .up {
     padding: 40px 70px 20px 50px;
 }
@@ -49,6 +47,7 @@ body {
     background-color: white;
     border: 0;
 }
+
 
 
 .item-button, .item-button svg {
@@ -89,7 +88,7 @@ a {
 }
 
 .item-hidden {
-    display: none
+    display: none;
 }
 
 .item-hidden.open {
@@ -139,7 +138,23 @@ a {
 
 .user{
     width: 221px;
-}
+    display: flex;
+    align-items: center;
+    }
 .down{
-    margin-top: 531px;
+    margin-top: 615px;
+}
+.user-name{
+    font-size: 15px;
+}
+.exit{
+    align-items: center;
+    top: 20px;
+    right: 20px;
+
+}
+.exit svg{
+    margin-left: 10px;
+    width: 25px;
+    height: 25px;
 }

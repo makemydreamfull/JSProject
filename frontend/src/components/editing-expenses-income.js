@@ -1,5 +1,3 @@
-import {CreationEditingAll} from './creation-edit-all.js'
-
 export class EditingCreationExpensesIncome {
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute
@@ -18,7 +16,7 @@ export class EditingCreationExpensesIncome {
 
             if (valueType && valueType.match(/^[А-Я]+$/i)) {
                 document.querySelectorAll('.form-control')[0].classList.add('is-valid')
-                localStorage.setItem('type', valueType)
+                sessionStorage.setItem('type', valueType)
                 return this.openNewRoute('/creation-all')
             } else {
                 document.querySelectorAll('.form-control')[0].classList.add('is-invalid')

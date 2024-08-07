@@ -15,3 +15,9 @@
 .invalid-feedback.two{
     top: -2px;
 }
+.all-error{
+    font-size: 14px;
+    width: 200px;
+    color: red;
+    display: none;
+}

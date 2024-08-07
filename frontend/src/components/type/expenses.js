@@ -1,5 +1,6 @@
 export class Expenses{
-    constructor() {
+    constructor(openNewRoute) {
+        this.openNewRoute = openNewRoute
         this.clickBtnEdit = document.querySelectorAll('.edit')
         this.clickBtnDelete = document.querySelectorAll('.delete')
         this.pagesElement = document.getElementById('pages')
@@ -21,7 +22,7 @@ export class Expenses{
         })
         this.clickBtnEdit.forEach((el,num) => {
             el.addEventListener('click', () => {
-                window.location.href = '/editing-expenses'
+                return this.openNewRoute('/editing-expenses')
             })
         })
         document.getElementById('yes-delete').addEventListener('click',() => {

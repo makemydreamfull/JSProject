@@ -1,3 +1,5 @@
+import {Income} from "./type/income.js";
+
 export class CreationEditingAll {
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute
@@ -11,8 +13,8 @@ export class CreationEditingAll {
         this.init()
     }
     init(){
-        if(localStorage.getItem('type')){
-            this.inputTypeElement.value = localStorage.getItem('type')
+        if(sessionStorage.getItem('type')){
+            this.inputTypeElement.value = sessionStorage.getItem('type')
             this.clickBtn()
             this.validForm()
         } else{
@@ -68,14 +70,15 @@ export class CreationEditingAll {
                 }
 
             if (!hasError) {
-                this.nameNewCategory()
+                // this.nameNewCategory() Почему не работает?
                 this.openNewRoute('/income')
+
             }
         })
 
     }
-    nameNewCategory(){
-        return this.inputFirstNameElement.value
-}
+//     nameNewCategory(){
+//         return this.inputFirstNameElement.value
+// }
 
 }
