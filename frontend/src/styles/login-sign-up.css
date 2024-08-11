@@ -1,0 +1,24 @@
+.item-input{
+    width: 350px;
+}
+
+.button-login{
+    width: 200px;
+}
+.login-button{
+    font-family: RobotoMedium, sans-serif;
+}
+.invalid-feedback {
+    position: relative;
+    top: -10px;
+}
+.invalid-feedback.two{
+    top: -2px;
+}
+.all-error{
+    font-size: 14px;
+    width: 200px;
+    color: red;
+    text-align: center;
+    display: none;
+}
