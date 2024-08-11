@@ -3,6 +3,7 @@ import {Income} from "./type/income.js";
 export class CreationEditingAll {
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute
+
         this.inputTypeElement = document.getElementById('type')
         this.inputFirstNameElement = document.getElementById('firstName')
         this.inputSumElement = document.getElementById('sum')

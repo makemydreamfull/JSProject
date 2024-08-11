@@ -1,4 +1,5 @@
-import config from "../../config/config.js";
+import {HttpUtils} from "../../utils/http-utils.js";
+import {AuthUtils} from "../../utils/auth-utils.js";
 
 export class SignUp {
     constructor(openNewRoute) {
@@ -9,7 +10,6 @@ export class SignUp {
         this.passwordElement = document.getElementById('password')
         this.agreeElement = document.getElementById('agree')
         this.passwordRepeatElement = document.getElementById('password-repeat')
-
         document.getElementById('button-login').addEventListener('click', this.signUp.bind(this))
     }
 
@@ -77,34 +77,31 @@ export class SignUp {
     }
 
     async signUp() {
-
         if (!this.validateForm()) {
-            const result = await fetch(config.api + '/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify({
-                    name: this.nameElement.value,
-                    lastName: this.lastNameElement.value,
-                    email: this.emailElement.value,
-                    password: this.passwordElement.value,
-                    passwordRepeat: this.passwordRepeatElement.value,
-                })
+            const result = await HttpUtils.request('/signup', 'POST', false, {
+                name: this.nameElement.value,
+                lastName: this.lastNameElement.value,
+                email: this.emailElement.value,
+                password: this.passwordElement.value,
+                passwordRepeat: this.passwordRepeatElement.value,
             })
-            const response = await result.json()
-            console.log(response)
-            if(response.user && (response.user.name && response.user.lastName)){
-                sessionStorage.setItem('name', response.user.name)
-                sessionStorage.setItem('lastName', response.user.lastName)
-                this.openNewRoute('/login')
 
+            console.log(result)
+            console.log(result.error || !result.response || (result.response && (!result.response.user.name || !result.response.user.lastName)))
+            if (result.error || !result.response || (result.response && (!result.response.user.name || !result.response.user.lastName))) {
+                document.getElementById('all-error').style.display = 'block'
+                    this.emailElement.style.borderColor = 'red'
+                    this.emailElement.classList.add('is-invalid')
+                    this.passwordElement.style.borderColor = 'red'
+                    this.passwordElement.classList.add('is-invalid')
+                return;
             }
-            else{
-                this.openNewRoute('/404')
+            AuthUtils.setAuthInfo(null, null, {
+                name: result.response.user.name,
+                lastName: result.response.user.lastName
+            })
+            this.openNewRoute('/login')
 
-            }
         }
     }
 

@@ -1,6 +1,11 @@
+import {AuthUtils} from "../utils/auth-utils";
+
 export class EditingCreationExpensesIncome {
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute
+        if(!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)) {
+            return this.openNewRoute('/login')
+        }
         this.clickBtnUndo = document.getElementById('delete')
         this.clickBtnCreate = document.getElementById('create')
         this.clickBtn()
