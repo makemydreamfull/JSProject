@@ -1,7 +1,7 @@
 import config from "../config/config.js";
 import {AuthUtils} from "./auth-utils.js";
 export class HttpUtils{
-    static async request(url, method='GET', useAuth = true ,body){
+    static async request(url, method='GET', useAuth = true , body){
         const result ={
             error:false,
             response: null,
@@ -17,7 +17,7 @@ export class HttpUtils{
         if(useAuth){
             token = AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)
             if(token){
-                params.headers['authorization']= token
+                params.headers['x-auth-token'] = token
             }
         }
         if(body){

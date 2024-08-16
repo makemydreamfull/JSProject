@@ -30,6 +30,8 @@ export class Login {
             name: result.response.user.name,
             lastName: result.response.user.lastName
         })
+        document.getElementById('sidebar').style.display = 'block'
+
         this.openNewRoute('/')
 
 

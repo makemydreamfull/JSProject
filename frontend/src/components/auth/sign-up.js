@@ -16,7 +16,7 @@ export class SignUp {
 
     validateForm() {
         let hasError = false
-        if (!this.lastNameElement.value || !this.lastNameElement.value.match(/\w\s*/)) {
+        if (!this.lastNameElement.value || !this.lastNameElement.value.match(/^[А-Я]+[а-я]+\s*/)) {
             this.lastNameElement.style.borderColor = 'red'
             this.lastNameElement.classList.add('is-invalid')
             hasError = true
@@ -25,7 +25,7 @@ export class SignUp {
             this.lastNameElement.classList.remove('is-invalid')
             this.lastNameElement.classList.add('is-valid')
         }
-        if (!this.nameElement.value || !this.nameElement.value.match(/\w\s*/)) {
+        if (!this.nameElement.value || !this.nameElement.value.match(/^[А-Я]+[а-я]+\s*/)) {
             this.nameElement.style.borderColor = 'red'
             this.nameElement.classList.add('is-invalid')
             hasError = true

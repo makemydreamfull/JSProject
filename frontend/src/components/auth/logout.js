@@ -26,6 +26,7 @@ export class Logout{
                         <span id="user-name" class="d-flex align-items-center ">Пользователь</span>
                     </a>`
         this.exitPageElement.setAttribute( 'style','display: none !important')
+        document.getElementById('sidebar').style.display = 'none'
         this.openNewRoute('/login')
     }
 }

@@ -22,3 +22,9 @@
     text-align: center;
     display: none;
 }
+.container{
+    top: 100%;
+}
+.container.sign-up{
+    top: 50%;
+}

@@ -3,13 +3,15 @@ import {Login} from "./components/auth/login.js";
 import {SignUp} from "./components/auth/sign-up.js";
 import {Expenses} from "./components/type/expenses.js";
 import {Income} from "./components/type/income.js";
-import {EditingCreationExpensesIncome} from "./components/editing-expenses-income.js";
-import {All} from "./components/all.js";
+import {CreationCategoriesIncomeAndExpenses} from "./components/creation-categories-income-and-expenses.js";
+import {AllDelete} from "./components/all-delete.js";
 import {Error} from "./components/404.js";
-import {CreationEditingAll} from "./components/creation-edit-all.js"
+import {CreationIncomeAndExpenses} from "./components/creation-income-and-expenses.js"
 import {Pie} from "./libcomponents/acquisitions.js"
 import {Logout} from "./components/auth/logout.js";
 import {AuthUtils} from "./utils/auth-utils.js";
+import {CreationCategoriesExpenses} from "./components/creation-categories-expenses.js";
+import {CreationCategoriesIncome} from "./components/creation-categories-income.js";
 
 export class Router {
     constructor() {
@@ -20,8 +22,6 @@ export class Router {
         this.buttonPageElement = document.getElementsByClassName('item-button')
         this.arrowPageElement = document.getElementById('turn')
         this.exitPageElement = document.querySelector('.exit')
-        this.layoutElement = document.getElementById('layout')
-        this.initEvents();
         this.router = [
             {
                 route: '/',
@@ -35,11 +35,35 @@ export class Router {
             },
             {
                 route: '/creation-income',
-                title: 'Получение дохода',
-                filePathTemplate: '/templates/creation-and-editing-input.html',
-                filePathTemplateTextTitle: 'Создание категории доходов',
+                title: 'Создание категории дохода',
+                filePathTemplate: '/templates/creation-income.html',
                 load: () => {
-                    new EditingCreationExpensesIncome(this.openNewRoute.bind(this));
+                    new CreationCategoriesIncome(this.openNewRoute.bind(this));
+                },
+            },
+
+            {
+                route: '/creation-expenses',
+                title: 'Создание категории расхода',
+                filePathTemplate: '/templates/creation-expenses.html',
+                load: () => {
+                    new CreationCategoriesExpenses(this.openNewRoute.bind(this));
+                },
+            },
+            {
+                route: '/editing-income',
+                title: 'Редактирование доходов',
+                filePathTemplate: '/templates/editing-income.html',
+                load: () => {
+                    new CreationCategoriesIncomeAndExpenses(this.openNewRoute.bind(this));
+                },
+            },
+            {
+                route: '/editing-expenses',
+                title: 'Редактирование расходов',
+                filePathTemplate: '/templates/editing-expenses.html',
+                load: () => {
+                    new CreationCategoriesIncomeAndExpenses(this.openNewRoute.bind(this));
                 },
             },
             {
@@ -60,56 +84,27 @@ export class Router {
 
             },
             {
-                route: '/editing-income',
-                title: 'Редактирование доходов',
-                filePathTemplate: '/templates/creation-and-editing-input.html',
-                filePathTemplateTextTitle: 'Редактирование категории доходов',
-                load: () => {
-                    new EditingCreationExpensesIncome(this.openNewRoute.bind(this));
-                },
-            },
-            {
-                route: '/editing-expenses',
-                title: 'Редактирование расходов',
-                filePathTemplate: '/templates/creation-and-editing-input.html',
-                filePathTemplateTextTitle: 'Редактирование категории расходов',
-                load: () => {
-                    new EditingCreationExpensesIncome(this.openNewRoute.bind(this));
-                },
-            },
-            {
                 route: '/editing-all',
                 title: 'Редактирование доходов и расходов',
                 filePathTemplate: '/templates/editing-all.html',
-                filePathTemplateTextTitle: '',
                 load: () => {
-                    new CreationEditingAll();
+                    new CreationIncomeAndExpenses(this.openNewRoute.bind(this));
                 },
             },
             {
-                route: '/creation-expenses',
-                title: 'Создание расходов',
-                filePathTemplate: '/templates/creation-and-editing-input.html',
-                filePathTemplateTextTitle: 'Создание категории расходов',
-                load: () => {
-                    new EditingCreationExpensesIncome(this.openNewRoute.bind(this));
-                },
-            },
-            {
-                route: '/creation-all',
+                route: '/creation-income-and-expenses',
                 title: 'Создание доходов и расходов',
-                filePathTemplate: '/templates/creation-all.html',
-                filePathTemplateTextTitle: 'Создание дохода/расхода',
+                filePathTemplate: '/templates/creation-income-and-expenses.html',
                 load: () => {
-                    new CreationEditingAll(this.openNewRoute.bind(this));
+                    new CreationIncomeAndExpenses(this.openNewRoute.bind(this));
                 },
             },
             {
-                route: '/all',
+                route: '/income-and-expenses',
                 title: 'Доходы и расходы',
-                filePathTemplate: '/templates/all.html',
+                filePathTemplate: '/templates/income-and-expenses.html',
                 load: () => {
-                    new All();
+                    new AllDelete();
                 },
             },
             {
@@ -137,16 +132,22 @@ export class Router {
                 },
             },
         ]
+        this.initEvents();
+
     }
 
     initEvents() {
+        window.addEventListener('DOMContentLoaded', this.activateRoute.bind(this));
+        window.addEventListener('popstate', this.activateRoute.bind(this));
+        if(!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey) || !AuthUtils.getAuthInfo(AuthUtils.refreshTokenKey)) {
+            document.getElementById('sidebar').style.display = 'none'
+            this.openNewRoute('/login')
+        }
         document.addEventListener('click', this.clickHandler.bind(this))
         this.categoriesPageElement.addEventListener('click', this.clickButtonCategoriesAndExit.bind(this));
-
     }
 
     async openNewRoute(url){
-
         const currentRoute = window.location.pathname
         history.pushState({},'',url)
         await this.activateRoute(null, currentRoute)
@@ -171,18 +172,17 @@ export class Router {
             if(!url || url === '/#' || url.startsWith('javascript:void(0)')){
                 return
             }
-            console.log(!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey) && !(url === '/signup'))
             if(!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey) && url !== '/sign-up') {
                 return this.openNewRoute('/login')
             }
             await this.openNewRoute(url)
         }
+
     }
     async activateRoute(e,oldRoute = null) {
         this.activeUser()
         const urlRoute = window.location.pathname
-        console.log(urlRoute)
-        const newRoute = this.router.find(item => item.route === urlRoute)
+        let newRoute = this.router.find(item => item.route === urlRoute)
         if (newRoute) {
 
             if (newRoute.title) {
@@ -193,13 +193,6 @@ export class Router {
             }
             if (newRoute.load && typeof newRoute.load === 'function') {
                 newRoute.load()
-            }
-            try {
-                if (newRoute.filePathTemplateTextTitle) {
-                    document.getElementById('title-container').innerText = newRoute.filePathTemplateTextTitle
-                }
-            } catch (e) {
-                return;
             }
 
 
@@ -239,6 +232,7 @@ export class Router {
 
     }
     activeUser(){
+
         const objUser = JSON.parse(AuthUtils.getAuthInfo(AuthUtils.userInfoTokenKey))
         if(AuthUtils.getAuthInfo(AuthUtils.userInfoTokenKey) && (AuthUtils.getAuthInfo(AuthUtils.accessTokenKey) && AuthUtils.getAuthInfo(AuthUtils.accessTokenKey))){
             document.getElementById('user').innerHTML = `<a href="/login" class="d-flex">

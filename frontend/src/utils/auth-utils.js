@@ -32,9 +32,10 @@ export class AuthUtils {
             }
         }
     }
-    static  async updateRefreshToken(){
+    static async updateRefreshToken(){
         let result = false
         const refreshToken = this.getAuthInfo(this.refreshTokenKey)
+        console.log(refreshToken)
         if(refreshToken){
             const response = await fetch(config.api + '/refresh', {
                 method: 'POST',
@@ -44,16 +45,17 @@ export class AuthUtils {
                 },
                 body: JSON.stringify({refreshToken: refreshToken})
             })
+            console.log(response)
             if(refreshToken && response.status ===200){
                 const tokens = await response.json()
                 if(tokens && !tokens.error){
-                    this.setAuthInfo(tokens.accessToken, tokens.refreshToken)
+                    this.setAuthInfo(tokens.tokens.accessToken, tokens.tokens.refreshToken)
                     result = true
                 }
             }
-        }
-        if(!result){
-            this.removeAuthInfo()
+            if(!result){
+                this.removeAuthInfo()
+            }
         }
         return result
     }
