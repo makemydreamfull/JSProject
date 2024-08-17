@@ -142,6 +142,8 @@ export class Router {
         if(!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey) || !AuthUtils.getAuthInfo(AuthUtils.refreshTokenKey)) {
             document.getElementById('sidebar').style.display = 'none'
             this.openNewRoute('/login')
+        } else if(AuthUtils.getAuthInfo(AuthUtils.accessTokenKey) && AuthUtils.getAuthInfo(AuthUtils.refreshTokenKey)){
+            this.openNewRoute(window.location.pathname)
         }
         document.addEventListener('click', this.clickHandler.bind(this))
         this.categoriesPageElement.addEventListener('click', this.clickButtonCategoriesAndExit.bind(this));
