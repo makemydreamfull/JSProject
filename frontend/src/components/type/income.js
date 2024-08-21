@@ -1,75 +1,121 @@
+import {AuthUtils} from "../../utils/auth-utils.js";
+import {HttpUtils} from "../../utils/http-utils.js";
+import {IncomeDataUtils} from "../../utils/income-data-utils.js";
+
 export class Income {
+    static objEditIncome = {}
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute
-        this.clickBtnEdit = document.querySelectorAll('.edit')
-        this.clickBtnDelete = document.querySelectorAll('.delete')
+        if (!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)) {
+            return this.openNewRoute('/login')
+        }
         this.pagesElement = document.getElementById('pages')
         this.plusElement = document.getElementById('plus')
-        this.contentElement = document.getElementById('content')
         this.modalElement = document.getElementById('modal-content')
-        this.clickBtnEditAndDelete()
-        if(sessionStorage.getItem('type')){
-            this.addCategoryBlock()
+        this.typeElement = document.getElementById('type')
+        this.plusElement.addEventListener('click', this.clickPlusElement.bind(this))
+        this.showElementsIncome()
+    }
+
+    async showElementsIncome() {
+        const result = await IncomeDataUtils.getIncome()
+        if (result.redirect) {
+            return this.openNewRoute(result.redirect)
         }
+        result.response.forEach((item) => {
+            const divPageElement = document.createElement('div');
+            divPageElement.classList.add('item-category')
+
+            const titlePageElement = document.createElement('h2')
+            titlePageElement.classList.add('item-title')
+            titlePageElement.innerText = item.title
+
+            console.log(titlePageElement.value)
+            const divBlockButtonPageElement = document.createElement('div')
+            divBlockButtonPageElement.classList.add('block-button', 'd-flex', 'g-col-1')
+
+            const firstButtonPageElement = document.createElement('button')
+            firstButtonPageElement.classList.add('edit', 'btn', 'btn-primary', 'me-2')
+            firstButtonPageElement.innerText = 'Редактировать'
+            firstButtonPageElement.id = 'edit-' + item.id
+
+            const secondButtonPageElement = document.createElement('button')
+            secondButtonPageElement.classList.add('delete', 'btn', 'btn-danger')
+            secondButtonPageElement.innerText = 'Удалить'
+            secondButtonPageElement.id = 'delete-' + item.id
+
+            divBlockButtonPageElement.appendChild(firstButtonPageElement)
+            divBlockButtonPageElement.appendChild(secondButtonPageElement)
+            divPageElement.appendChild(titlePageElement)
+            divPageElement.appendChild(divBlockButtonPageElement)
+            document.getElementById('plus').parentNode.insertBefore(divPageElement, document.getElementById('plus'))
+        })
+        this.clickBtnDelete = document.querySelectorAll('.delete')
+        this.clickBtnEdit = document.querySelectorAll('.edit')
+        for (let i = 0; i < this.clickBtnEdit.length; i++) {
+            this.clickBtnDelete[i].addEventListener('click', this.clickBtnDeleteElement.bind(this, result, i))
+            this.clickBtnEdit[i].addEventListener('click', this.clickBtnEditElement.bind(this, result, i))
+        }
+
     }
 
-    clickBtnEditAndDelete() {
-        let number = 0
-        this.clickBtnDelete.forEach((el, num) => {
-            el.addEventListener('click', () => {
-                document.getElementById('content-title').innerText = 'Вы действительно хотите удалить категорию? Связанные доходы будут удалены навсегда.'
-                this.pagesElement.style.display = 'none'
-                this.modalElement.style.display = 'flex'
-                number = num
+    clickBtnDeleteElement(objectResult, i) {
+        console.log(objectResult)
+        console.log(this.clickBtnDelete[i])
+        this.pagesElement.style.display = 'none'
+        this.modalElement.style.display = 'flex'
+        let that = this
+        const currentElementClick = objectResult.response.find((item) => {
+            return item.id === Number(this.clickBtnDelete[i].id.replace('delete-', ''))
+        })
+        console.log(currentElementClick)
+        if (currentElementClick) {
+
+            document.getElementById('yes-delete').addEventListener('click', async function (e, index) {
+                const result = await HttpUtils.request('/categories/income/' + currentElementClick.id, 'DELETE')
+                if (result.error || result.redirect || !result.response || (result.response && result.response.error)) {
+                    console.log(result.response.message)
+                    return alert('Произошла ошибка в удалении категории доходов. Если вам необходимо удалить данную категорию, обратитесь в поддержку!')
+                }
+
+                that.clickBtnDelete[i].parentElement.parentElement.remove()
+                that.pagesElement.style.display = 'flex'
+                that.modalElement.style.display = 'none'
+
             })
+        } else {
+            return alert('Произошла ошибка в удалении категории доходов')
+        }
+
+        document.getElementById('no-delete').addEventListener('click', function () {
+            that.pagesElement.style.display = 'flex'
+            that.modalElement.style.display = 'none'
         })
-        this.plusElement.addEventListener('click', () => {
-            return this.openNewRoute('/creation-income')
-        })
-        this.clickBtnEdit.forEach((el, num) => {
-            el.addEventListener('click', () => {
-                return this.openNewRoute('/editing-income')
-            })
-        })
-        document.getElementById('yes-delete').addEventListener('click', () => {
-            document.querySelectorAll('.item')[number].style.display = 'none'
-            this.pagesElement.style.display = 'flex'
-            this.modalElement.style.display = 'none'
-        })
-        document.getElementById('no-delete').addEventListener('click', () => {
-            this.pagesElement.style.display = 'flex'
-            this.modalElement.style.display = 'none'
-        })
+
+        return currentElementClick
 
     }
 
-    addCategoryBlock() {
+    clickPlusElement() {
+        return this.openNewRoute('/creation-income')
 
-        const divPageElement = document.createElement('div');
-        divPageElement.classList.add('item')
-
-        const titlePageElement = document.createElement('h2')
-        titlePageElement.classList.add('item-title')
-        titlePageElement.innerText = sessionStorage.getItem('type')
-
-        const divBlockButtonPageElement = document.createElement('div')
-        divBlockButtonPageElement.className = 'block-button d-flex g-col-1'
-
-        const firstButtonPageElement = document.createElement('button')
-        firstButtonPageElement.className = 'edit btn btn-primary me-2'
-        firstButtonPageElement.innerText = 'Редактировать'
-
-        const secondButtonPageElement = document.createElement('button')
-        secondButtonPageElement.className = 'delete btn btn-danger'
-        secondButtonPageElement.innerText = 'Удалить'
-
-        divBlockButtonPageElement.appendChild(firstButtonPageElement)
-        divBlockButtonPageElement.appendChild(secondButtonPageElement)
-        divPageElement.appendChild(titlePageElement)
-        divPageElement.appendChild(divBlockButtonPageElement)
-
-        // this.plusElement.parentNode.insertBefore(divPageElement, document.querySelectorAll('.item')[0])
-        // document.querySelectorAll('.item')[0].insertAdjacentElement('beforebegin', divPageElement)
-        this.contentElement += document.querySelectorAll('.item')[0].insertAdjacentElement('beforebegin', divPageElement)
     }
+
+    clickBtnEditElement(objectResult, i) {
+        const currentElementClick = objectResult.response.find((item) => {
+            return item.id === Number(this.clickBtnEdit[i].id.replace('edit-', ''))
+        })
+        if(currentElementClick){
+            Income.objEditIncome = currentElementClick
+            console.log(Income.objEditIncome)
+            this.openNewRoute('/editing-income')
+        }
+        else{
+            return alert('Произошла ошибка в редактировании категории доходов')
+
+        }
+
+    }
+
+
 }

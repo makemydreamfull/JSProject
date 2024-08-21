@@ -4,7 +4,7 @@
 @import "layout.css";
 @import "creation-all.css";
 @import "404.css";
-@import "login.css";
+@import "login-sign-up.css";
 
 @font-face {
     src: url("../static/fonts/Roboto-Regular.ttf");
@@ -77,10 +77,11 @@ body {
     color: #052C65;
 }
 
-
-.line-vertical {
-    height: auto;
+.left{
     border-right: 1px solid #D9D9D9;
+}
+.line-vertical {
+    height: 100vh !important;
 }
 
 a {
@@ -142,15 +143,19 @@ a {
     align-items: center;
     }
 .down{
-    margin-top: 615px;
+    position: relative;
+    z-index: -1;
+    bottom: 0;
+    left: 0;
 }
 .user-name{
     font-size: 15px;
 }
 .exit{
     align-items: center;
-    top: 20px;
-    right: 20px;
+    top: 30px;
+    right: 30px;
+    display: none !important;
 
 }
 .exit svg{
