@@ -1,0 +1,53 @@
+<div class="container sign-up d-flex justify-content-center align-items-center w-100 h-100 position-relative">
+    <div class="background">
+        <div class="items d-flex align-items-center flex-column">
+            <h2 class="login-title mb-3">Регистрация</h2>
+            <div class="all-error text-danger mb-2" id="all-error">Введите правильный email и пароль</div>
+            <div class="item-input">
+                <input class="form-control mb-3" type="text" id="last-name" placeholder="Фамилия..."
+                       aria-describedby="validationServer01Feedback">
+                <div id="validationServer01Feedback" class="invalid-feedback mt-0">
+                    Введите Фамилию
+                </div>
+            </div>
+            <div class="item-input">
+                <input class="form-control mb-3" type="text" id="name" placeholder="Имя..."
+                       aria-describedby="validationServer02Feedback">
+                <div id="validationServer02Feedback" class="invalid-feedback mt-0">
+                    Введите Имя
+                </div>
+            </div>
+            <div class="item-input">
+                <input class="form-control mb-3" autocomplete type="text" id="email" placeholder="Электронная почта..."
+                       aria-describedby="validationServer03Feedback">
+                <div id="validationServer03Feedback" class="invalid-feedback mt-0">
+                    Введите электронную почту
+                </div>
+            </div>
+
+            <div class="item-input">
+                <input class="form-control mb-2" autocomplete="new-password" type="password" id="password" placeholder="Пароль..." aria-describedby="validationServer04Feedback">
+                <div id="validationServer04Feedback" class="invalid-feedback two">
+                    Введите пароль
+                </div>
+            </div>
+            <div class="item-input">
+                <input class="form-control mb-2" type="password" id="password-repeat" placeholder="Повторите пароль..." aria-describedby="validationServer05Feedback">
+                <div id="validationServer05Feedback" class="invalid-feedback two">
+                    Повторите пароль
+                </div>
+            </div>
+            <div class="item-input">
+                <input type="checkbox" class="me-2" name="agree" id="agree" aria-describedby="validationServer06Feedback">Я согласен с <a href="javascript:void(0)">правилами сайта</a>
+                <div id="validationServer06Feedback" class="invalid-feedback two">
+                    Согласитесь с условиями
+                </div>
+            </div>
+
+            <button type="button" class="button-login btn btn-primary py-1 px-2 me-2 my-3" id="button-login">Зарегистрироваться</button>
+            <p class="text-sign-up mt-2">Уже зарегистировались? <a href="/login">Войти</a></p>
+
+        </div>
+
+    </div>
+</div>

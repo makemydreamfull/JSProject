@@ -1,0 +1,28 @@
+
+tbody,thead,tr,td{
+    border-style: solid;
+    border-width: 2px;
+    border-right: 0;
+    border-left: 0;
+
+}
+
+.a-grey{
+    color: #5d636a;
+}
+.trash, .edited {
+    cursor: pointer;
+}
+.qs-datepicker{
+    src: url("../static/fonts/Roboto-Regular.ttf");
+    font-family: RobotoRegular;
+}
+.qs-controls{
+    background: none;
+    color: #0D6EFD;
+    font-size: 18px;
+}
+.qs-square.qs-day{
+    color: #0D6EFD;
+    font-size: 15px;
+}

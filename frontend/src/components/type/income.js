@@ -34,17 +34,23 @@ export class Income {
             const divBlockButtonPageElement = document.createElement('div')
             divBlockButtonPageElement.classList.add('block-button', 'd-flex', 'g-col-1')
 
+
+
             const firstButtonPageElement = document.createElement('button')
             firstButtonPageElement.classList.add('edit', 'btn', 'btn-primary', 'me-2')
             firstButtonPageElement.innerText = 'Редактировать'
-            firstButtonPageElement.id = 'edit-' + item.id
+
+            const linkPageElement = document.createElement('a')
+            linkPageElement.href = '/editing-income?id=' + item.id
+
+            linkPageElement.appendChild(firstButtonPageElement)
 
             const secondButtonPageElement = document.createElement('button')
             secondButtonPageElement.classList.add('delete', 'btn', 'btn-danger')
             secondButtonPageElement.innerText = 'Удалить'
             secondButtonPageElement.id = 'delete-' + item.id
 
-            divBlockButtonPageElement.appendChild(firstButtonPageElement)
+            divBlockButtonPageElement.appendChild(linkPageElement)
             divBlockButtonPageElement.appendChild(secondButtonPageElement)
             divPageElement.appendChild(titlePageElement)
             divPageElement.appendChild(divBlockButtonPageElement)
@@ -54,7 +60,6 @@ export class Income {
         this.clickBtnEdit = document.querySelectorAll('.edit')
         for (let i = 0; i < this.clickBtnEdit.length; i++) {
             this.clickBtnDelete[i].addEventListener('click', this.clickBtnDeleteElement.bind(this, result, i))
-            this.clickBtnEdit[i].addEventListener('click', this.clickBtnEditElement.bind(this, result, i))
         }
 
     }
@@ -100,22 +105,5 @@ export class Income {
         return this.openNewRoute('/creation-income')
 
     }
-
-    clickBtnEditElement(objectResult, i) {
-        const currentElementClick = objectResult.response.find((item) => {
-            return item.id === Number(this.clickBtnEdit[i].id.replace('edit-', ''))
-        })
-        if(currentElementClick){
-            Income.objEditIncome = currentElementClick
-            console.log(Income.objEditIncome)
-            this.openNewRoute('/editing-income')
-        }
-        else{
-            return alert('Произошла ошибка в редактировании категории доходов')
-
-        }
-
-    }
-
 
 }

@@ -1,0 +1,31 @@
+<div class="container d-flex justify-content-center align-items-center w-100 h-100 position-relative">
+    <div class="background">
+        <div class="items d-flex align-items-center flex-column">
+            <h2 class="login-title mb-2">Аутентификация</h2>
+            <p class="all-error text-center mb-3" id="all-error">Введите корректные E-mail и пароль</p>
+            <div class="item-input">
+                <input class="form-control mb-3" type="text" id="email" placeholder="Электронная почта..."
+                       aria-describedby="validationServer02Feedback">
+                <div id="validationServer02Feedback" class="invalid-feedback mt-0">
+                    Введите электронную почту
+                </div>
+            </div>
+            <div class="item-input">
+                <input class="form-control mb-2" type="password" placeholder="Пароль.." id="password" aria-describedby="validationServer03Feedback">
+                <div id="validationServer03Feedback" class="invalid-feedback two">
+                    Введите пароль
+                </div>
+            </div>
+            <div class="item-input">
+            <input type="checkbox" class="me-2" name="remember" id="remember">Запомнить меня ?
+                <a href="javascript:void(0)">
+                    <div class="password-loss d-flex justify-content-end">Забыли пароль?</div>
+                </a>
+            </div>
+            <button type="button" class="button-login btn btn-primary py-1 px-2 me-2 my-3" id="button-login">Войти</button>
+            <p class="text-sign-up mt-2">Еще не зарегистировались? <a href="/sign-up" id="sign-up">Зарегистрироваться</a></p>
+
+        </div>
+
+    </div>
+</div>

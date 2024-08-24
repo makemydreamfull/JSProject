@@ -4,8 +4,6 @@ import {HttpUtils} from "../../utils/http-utils.js";
 export class Login {
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute
-        // this.sidebarElement = document.getElementById('sidebar')
-        // this.sidebarElement.style.display = 'none'
         this.emailElement = document.getElementById('email')
         this.passwordElement = document.getElementById('password')
         this.rememberElement = document.getElementById('remember')
@@ -25,8 +23,8 @@ export class Login {
             return;
         }
         if (!result.response.tokens.accessToken || !result.response.tokens.refreshToken || !result.response.user) {
-            this.openNewRoute('/404')
-            return
+            return this.openNewRoute('/404')
+
         }
         AuthUtils.setAuthInfo(result.response.tokens.accessToken, result.response.tokens.refreshToken, {
             name: result.response.user.name,

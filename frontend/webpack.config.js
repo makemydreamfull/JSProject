@@ -52,6 +52,8 @@ module.exports = {
                 {from: "./src/static/img", to: "image"},
                 {from: "./node_modules/bootstrap/dist/css/bootstrap.min.css", to: "styles"},
                 {from: "./node_modules/bootstrap/dist/css/bootstrap-utilities.min.css", to: "styles"},
+                {from: "./node_modules/js-datepicker/dist/datepicker.min.css", to: "styles"},
+                {from: "./node_modules/js-datepicker/dist/datepicker.min.js", to: "js"},
             ],
         }),
     ],

@@ -1,0 +1,47 @@
+<div class="container">
+    <div class="main-title my-5" id="main-title">Создание дохода/расхода</div>
+    <div class="items-input d-flex flex-column align-items-start">
+        <div class="row w-25" id="row-type">
+            <input type="text" class="form-control mb-2" id="type" placeholder="Тип..."
+                   aria-describedby="validationServer01Feedback" required>
+            <div id="validationServer01Feedback" class="invalid-feedback">
+                Укажите тип (Доход или Расход)
+            </div>
+        </div>
+        <div class="row w-25">
+            <input type="text" class="form-control mb-2" id="сategory" placeholder="Категория..."
+                   aria-describedby="validationServer02Feedback" required>
+            <div id="validationServer02Feedback" class="invalid-feedback">
+                Укажите категорию
+            </div>
+        </div>
+        <div class="row w-25">
+            <input type="text" autocomplete="off" class="form-control mb-2" id="sum" placeholder="Сумма в $..."
+                   aria-describedby="validationServer03Feedback" required>
+            <div id="validationServer03Feedback" class="invalid-feedback">
+                Укажите сумму
+            </div>
+        </div>
+        <div class="row w-25">
+            <input type="text" autocomplete="off" class="data form-control mb-2" id="data" placeholder="Дата..."
+                   aria-describedby="validationServer04Feedback" required>
+            <div id="validationServer04Feedback" class="invalid-feedback">
+                Укажите дату через .
+            </div>
+        </div>
+        <div class="row w-25">
+            <input type="text" autocomplete="off" class="form-control mb-2" id="comment" placeholder="Комментарий..."
+                   aria-describedby="validationServer05Feedback" required>
+            <div id="validationServer05Feedback" class="invalid-feedback">
+                Укажите Ваш комментарий
+            </div>
+        </div>
+        <div class="button-creation-all mt-3">
+            <button id="create" type="button" class="btn btn-success py-2 px-4 mу-2">Создать</button>
+            <a href="/income-and-expenses">
+                <button type="button" id="delete" class="btn btn-danger py-2 px-4">Отмена</button>
+            </a>
+        </div>
+    </div>
+
+</div>
