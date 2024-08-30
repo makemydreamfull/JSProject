@@ -9,7 +9,7 @@ import {AuthUtils} from "./utils/auth-utils.js";
 import {IncomeAndExpenses} from "./components/income-and-expenses.js";
 import {HttpUtils} from "./utils/http-utils.js";
 import {Category} from "./components/create-edit-category.js";
-import {AllIncomeAndExpenses} from "./components/operations/all-income-and-expenses";
+import {AllIncomeAndExpenses} from "./components/operations/all-income-and-expenses.js";
 
 export class Router {
     constructor() {
@@ -67,7 +67,7 @@ export class Router {
                 },
             },
             {
-                route: '/expenses',
+                route: '/expense',
                 title: 'Расходы',
                 filePathTemplate: '/templates/type/expenses.html',
                 useSidebar: '/templates/main.html',
@@ -88,7 +88,7 @@ export class Router {
             {
                 route: '/editing-income-and-expenses',
                 title: 'Редактирование доходов и расходов',
-                filePathTemplate: '/templates/operations/editing-income-and-expenses.html',
+                filePathTemplate: '/templates/operations/all-income-and-expenses.html',
                 useSidebar: '/templates/main.html',
                 load: () => {
                     new AllIncomeAndExpenses(this.openNewRoute.bind(this), 'edit');
@@ -97,7 +97,7 @@ export class Router {
             {
                 route: '/creation-income-and-expenses',
                 title: 'Создание доходов и расходов',
-                filePathTemplate: '/templates/operations/creation-income-and-expenses.html',
+                filePathTemplate: '/templates/operations/all-income-and-expenses.html',
                 useSidebar: '/templates/main.html',
                 load: () => {
                     new AllIncomeAndExpenses(this.openNewRoute.bind(this),'add');
@@ -255,7 +255,7 @@ export class Router {
         // if (document.getElementById('sidebar').getAttribute('style').indexOf('display: none') !== 0) {
         const objUser = JSON.parse(AuthUtils.getAuthInfo(AuthUtils.userInfoTokenKey))
         let userText = document.getElementById('user-name')
-        if (AuthUtils.getAuthInfo(AuthUtils.accessTokenKey) && AuthUtils.getAuthInfo(AuthUtils.refreshTokenKey) && (window.location.pathname !== '/login'&& window.location.pathname !== '/sign-up')) {
+        if (AuthUtils.getAuthInfo(AuthUtils.accessTokenKey) && AuthUtils.getAuthInfo(AuthUtils.refreshTokenKey)&& AuthUtils.getAuthInfo(AuthUtils.userInfoTokenKey) && (window.location.pathname !== '/login'&& window.location.pathname !== '/sign-up') && window.location.pathname !== '/404') {
             if(userText){
                 userText.innerText = `${objUser.name} ${objUser.lastName}`
             }
@@ -264,7 +264,8 @@ export class Router {
             const result = await HttpUtils.request('/balance')
             if (result.error || result.redirect || !result.response || (result.response && (result.response.error || result.response.message))) {
                 console.log(result.response.message)
-                return alert('Произошла ошибка в отображении баланса!')
+                alert('Произошла ошибка в отображении баланса!')
+                return this.openNewRoute(result.redirect)
             }
             document.getElementById('balance').innerText = result.response.balance + '$'
         } else{

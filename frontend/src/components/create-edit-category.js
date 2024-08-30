@@ -48,10 +48,11 @@ export class Category {
             document.querySelectorAll('.form-control')[0].classList.add('is-invalid')
             this.hasError = true
         }
+        return this.hasError
     }
 
     async approveButtonClick() {
-        if (!this.hasError) {
+        if (!this.validForm()) {
             const title = this.valueTypeElement.value;
             let url = null;
             let method = null;
@@ -75,9 +76,7 @@ export class Category {
                     return alert('Произошла ошибка в удалении категории доходов. Если вам необходимо удалить данную категорию, обратитесь в поддержку!')
                 }
                 console.log(this.type)
-                if (this.type === 'expense'){
-                    this.type = 'expenses'
-                }
+
                 return this.openNewRoute('/' + this.type)
             }
         }

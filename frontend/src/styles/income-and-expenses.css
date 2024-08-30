@@ -26,3 +26,25 @@ tbody,thead,tr,td{
     color: #0D6EFD;
     font-size: 15px;
 }
+.dropdown-menu{
+    position: absolute;
+    inset: 0px auto auto 0px;
+    margin: 0px;
+    transform: translate3d(0px, 39px, 0px);
+}
+.dropdown-toggle{
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+}
+.dropdown-toggle:hover{
+    background-color: #accdee;
+
+}
+.dropdown-toggle.active, .dropdown-toggle.show, .dropdown-toggle:first-child:active, :not(.btn-check)+.dropdown-toggle:active{
+    background-color: #accdee;
+}
+.data-from, .data-to{
+    width: 100px;
+}

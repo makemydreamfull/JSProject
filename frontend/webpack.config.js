@@ -54,6 +54,7 @@ module.exports = {
                 {from: "./node_modules/bootstrap/dist/css/bootstrap-utilities.min.css", to: "styles"},
                 {from: "./node_modules/js-datepicker/dist/datepicker.min.css", to: "styles"},
                 {from: "./node_modules/js-datepicker/dist/datepicker.min.js", to: "js"},
+                {from: "./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js", to: "js"},
             ],
         }),
     ],
