@@ -24,8 +24,7 @@ export class Router {
                 filePathTemplate: '/templates/layout.html',
                 useSidebar: '/templates/main.html',
                 load: () => {
-                    new Layout();
-                    new Pie();
+                    new Layout(this.openNewRoute.bind(this));
                     new Logout(this.openNewRoute.bind(this));
                 },
             },
@@ -184,7 +183,7 @@ export class Router {
             e.preventDefault()
             const currentRoute = window.location.pathname
             const url = element.href.replace(window.location.origin, '')
-            if (!url || url === '/#' || url.startsWith('javascript:void(0)')) {
+            if (!url || url.startsWith('javascript:void(0)')) {
                 return
             }
             if (!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey) && url !== '/sign-up') {

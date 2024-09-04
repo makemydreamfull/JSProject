@@ -1,22 +1,24 @@
 <div class="container">
     <h1 class="main-title my-5">Главная</h1>
-    <button type="button" class="btn btn-outline-secondary py-1 px-3 me-2 ">Сегодня</button>
-    <button type="button" class="btn btn-outline-secondary py-1 px-3 me-2 ">Неделя</button>
-    <button type="button" class="btn btn-outline-secondary py-1 px-3 me-2 ">Месяц</button>
-    <button type="button" class="btn btn-outline-secondary py-1 px-3 me-2 ">Год</button>
-    <button type="button" class="btn btn-outline-secondary py-1 px-3 me-2 ">Все</button>
-    <button type="button" class="btn btn-outline-secondary py-1 px-3 me-2 ">Интервал</button>
-    <span>с</span>
-    <button type="button" class="a-grey btn btn-link">Дата</button>
-    <span>по</span>
-    <button type="button" class="a-grey btn btn-link ">Дата</button>
+    <div class="data d-flex align-items-center">
+        <button type="button" class="data-link btn btn-outline-secondary py-1 px-2 me-2" id="today">Сегодня</button>
+        <button type="button" class="data-link btn btn-outline-secondary py-1 px-2 me-2" id="week">Неделя</button>
+        <button type="button" class="data-link btn btn-outline-secondary py-1 px-2 me-2" id="month">Месяц</button>
+        <button type="button" class="data-link btn btn-outline-secondary py-1 px-2 me-2" id="year">Год</button>
+        <button type="button" class="data-link btn btn-outline-secondary py-1 px-2 me-2" id="all">Все</button>
+        <button type="button" class="data-link btn btn-outline-secondary py-1 px-2 me-2" id="interval">Интервал</button>
+        <span>с</span>
+        <input type="text" autocomplete="off" class="data-from form-control mx-2 py-1 px-2 " id="dataFrom" placeholder="Дата">
+        <span>по</span>
+        <input type="text" autocomplete="off" class="data-to form-control py-1 px-2 m-2" id="dataTo" placeholder="Дата">
+    </div>
     <div class="main-content d-flex justify-content-center">
-        <div class="elementMyChart">
-            <canvas id="myChart"></canvas>
+        <div class="elementMyChart" id="element-income-chart">
+            <canvas id="income-chart"></canvas>
         </div>
         <div class="line-vertical-layout"></div>
-        <div class="elementMyChart">
-            <canvas id="myChart2"></canvas>
+        <div class="elementMyChart" id="element-expense-chart">
+            <canvas id="expense-chart"></canvas>
         </div>
     </div>
 </div>

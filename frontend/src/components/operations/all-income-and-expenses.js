@@ -3,7 +3,6 @@ import {IncomeDataUtils} from "../../utils/income-data-utils.js";
 import {ExpensesDataUtils} from "../../utils/expenses-data-utils.js";
 import {AuthUtils} from "../../utils/auth-utils.js";
 import datepicker from 'js-datepicker'
-import pickerProperties from "js-datepicker/cypress/pickerProperties";
 
 export class AllIncomeAndExpenses {
 
@@ -18,7 +17,6 @@ export class AllIncomeAndExpenses {
         this.inputSumElement = document.getElementById('sum')
         this.inputDataElement = document.getElementById('data')
         this.inputCommentElement = document.getElementById('comment')
-
         const urlParams = new URLSearchParams(window.location.search);
         this.id = urlParams.get('id')
         this.type = urlParams.get('type')
@@ -42,23 +40,44 @@ export class AllIncomeAndExpenses {
         }
 
         datepicker('.data', {
-                formatter: (input, date, instance) => {
-                    this.currencyDate = date
-                    const value = date.toLocaleDateString()
-                    input.value = value // => '1/1/2099'
-                },
-                showAllDates: true,
-                customMonths: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
-                customDays: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
-            })
+            formatter: (input, date, instance) => {
+                this.currencyDate = date
+                const value = date.toLocaleDateString()
+                input.value = value // => '1/1/2099'
+            },
+            showAllDates: true,
+            customMonths: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
+            customDays: ['Вс', 'Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб']
+        })
         document.getElementById('main-title').innerText = (this.typeCategories === 'edit' ? 'Редактирование ' : 'Создание ') + 'дохода/расхода'
         document.getElementById('create').innerText = (this.typeCategories === 'edit') ? 'Сохранить' : 'Создать'
         this.init()
         this.operationCategoriesType()
+        this.types = document.getElementById('types')
         document.getElementById('create').addEventListener('click', this.postForm.bind(this))
+        // document.getElementById('type').addEventListener('click', this.clickTypeElements.bind(this))
     }
 
-    showTypeElements(){
+    // clickTypeElements() {
+    //     if (this.inputTypeElement.value === 'Расход') {
+    //         this.types.innerText = 'Доход'
+    //         this.types.onclick =  () => {
+    //             document.getElementById('type').innerText = 'Доход';
+    //             document.getElementById('types').innerText = 'Расход';
+    //             this.showTypeElements()
+    //         }
+    //     } else if (this.inputTypeElement.value === 'Доход') {
+    //         this.types.innerText = 'Расход'
+    //         this.types.onclick =  () => {
+    //             document.getElementById('type').innerText = 'Расход';
+    //             document.getElementById('types').innerText = 'Доход';
+    //             this.showTypeElements()
+    //         }
+    //     }
+    //
+    // }
+
+    showTypeElements() {
         const arrItemsDropdown = document.querySelectorAll('.dropdown-item')
         if (arrItemsDropdown.length > 0) {
             this.inputCategoryElement.innerText = arrItemsDropdown[0].innerText
@@ -74,7 +93,7 @@ export class AllIncomeAndExpenses {
     }
 
 
-    checkTypeElements(){
+    checkTypeElements() {
         if (this.inputTypeElement.value === 'Доход' || this.inputTypeElement.value === 'income') {
             this.data = this.getDataIncome.response
         } else if (this.inputTypeElement.value === 'Расход' || this.inputTypeElement.value === 'expense') {
@@ -106,14 +125,14 @@ export class AllIncomeAndExpenses {
         }
         //Появление элементов указанного типа из бэкенда
         this.checkTypeElements()
-            this.data.forEach((item) => {
-                const buttonElement = document.createElement('button')
-                const liElement = document.createElement('li')
-                buttonElement.classList.add('dropdown-item')
-                buttonElement.innerText = item.title
-                liElement.appendChild(buttonElement)
-                document.getElementById('category-link').appendChild(liElement)
-            })
+        this.data.forEach((item) => {
+            const buttonElement = document.createElement('button')
+            const liElement = document.createElement('li')
+            buttonElement.classList.add('dropdown-item')
+            buttonElement.innerText = item.title
+            liElement.appendChild(buttonElement)
+            document.getElementById('category-link').appendChild(liElement)
+        })
 
         this.showTypeElements()
 
@@ -188,28 +207,30 @@ export class AllIncomeAndExpenses {
 
     async postForm() {
         if (!this.validForm()) {
-        this.date = new Date(this.currencyDate).toISOString().split('T')[0]
-        console.log(this.date)
-        this.getDataIncome = await IncomeDataUtils.getIncome()
-        this.getDataExpenses = await ExpensesDataUtils.getExpenses()
-        this.categoryId = null
-        this.type = null
-        if (this.getDataIncome) {
-            this.findIncome = this.getDataIncome.response.find((item) => {
-                return item.title === this.inputCategoryElement.innerText
-            })
-            if (this.findIncome) {
-                [this.categoryId, this.type] = [this.findIncome.id, 'income']
+            this.date = new Date(this.currencyDate).toISOString().split('T')[0]
+            console.log(this.date)
+            this.getDataIncome = await IncomeDataUtils.getIncome()
+            this.getDataExpenses = await ExpensesDataUtils.getExpenses()
+            this.categoryId = null
+            this.type = null
+            if (this.getDataIncome) {
+
+                this.findIncome = this.getDataIncome.response.find((item) => {
+                    return item.title === this.inputCategoryElement.innerText
+                })
+                if (this.findIncome) {
+                    [this.categoryId, this.type] = [this.findIncome.id, 'income']
+                }
             }
-        }
-        if (this.getDataExpenses) {
-            this.findExpense = this.getDataExpenses.response.find((item) => {
-                return item.title === this.inputCategoryElement.innerText
-            })
-            if (this.findExpense) {
-                [this.categoryId, this.type] = [this.findExpense.id, 'expense']
+            if (this.getDataExpenses) {
+                this.findExpense = this.getDataExpenses.response.find((item) => {
+                    return item.title === this.inputCategoryElement.innerText
+                })
+                if (this.findExpense) {
+                    [this.categoryId, this.type] = [this.findExpense.id, 'expense']
+                }
             }
-        }
+
 
             const result = await HttpUtils.request(this.url, this.method, true, {
                 type: this.type,

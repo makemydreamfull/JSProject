@@ -4,7 +4,6 @@ import {IncomeDataUtils} from "../../utils/income-data-utils";
 import {ExpensesDataUtils} from "../../utils/expenses-data-utils";
 
 export class Expenses {
-    static objEditExpenses = {}
     constructor(openNewRoute) {
         this.openNewRoute = openNewRoute
         if (!AuthUtils.getAuthInfo(AuthUtils.accessTokenKey)) {
@@ -66,24 +65,19 @@ export class Expenses {
     }
 
     clickBtnDeleteElement(objectResult, i) {
-        console.log(objectResult)
-        console.log(this.clickBtnDelete[i])
         this.pagesElement.style.display = 'none'
         this.modalElement.style.display = 'flex'
         let that = this
         const currentElementClick = objectResult.response.find((item) => {
             return item.id === Number(this.clickBtnDelete[i].id.replace('delete-', ''))
         })
-        console.log(currentElementClick)
         if (currentElementClick) {
-
             document.getElementById('yes-delete').addEventListener('click', async function (e, index) {
                 const result = await HttpUtils.request('/categories/expense/' + currentElementClick.id, 'DELETE')
                 if (result.error || result.redirect || !result.response || (result.response && result.response.error)) {
                     console.log(result.response.message)
                     return alert('Произошла ошибка в удалении категории расходов. Если вам необходимо удалить данную категорию, обратитесь в поддержку!')
                 }
-
                 that.clickBtnDelete[i].parentElement.parentElement.remove()
                 that.pagesElement.style.display = 'flex'
                 that.modalElement.style.display = 'none'

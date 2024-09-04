@@ -1,4 +1,6 @@
 import {HttpUtils} from "../utils/http-utils.js";
+import {ExpensesDataUtils} from "../utils/expenses-data-utils";
+import {IncomeDataUtils} from "../utils/income-data-utils";
 
 export class Category {
     constructor(openNewRoute, type, action) {
@@ -64,19 +66,23 @@ export class Category {
                     [url, method] = [this.categoriesRoute + '/' + this.id, "PUT"];
                 }
             }
-            console.log(url)
-            console.log(method)
-            const result = await HttpUtils.request(url, method, true,{
-                "title": title
-            });
-            console.log(result)
-            if (result) {
-                if (result.error || result.redirect || !result.response || (result.response && result.response.error)) {
-                    console.log(result.response.message)
-                    return alert('Произошла ошибка в удалении категории доходов. Если вам необходимо удалить данную категорию, обратитесь в поддержку!')
-                }
-                console.log(this.type)
+            console.log((await ExpensesDataUtils.getExpenses()).response)
+            if ((await IncomeDataUtils.getIncome()).response.length <10 && (await ExpensesDataUtils.getExpenses()).response.length < 10){
+                const result = await HttpUtils.request(url, method, true,{
+                    "title": title
+                });
+                console.log(result)
+                if (result) {
+                    if (result.error || result.redirect || !result.response || (result.response && result.response.error)) {
+                        console.log(result.response.message)
+                        return alert('Произошла ошибка в удалении категории доходов. Если вам необходимо удалить данную категорию, обратитесь в поддержку!')
+                    }
+                    console.log(this.type)
 
+                    return this.openNewRoute('/' + this.type)
+                }
+            } else{
+                 alert('Достигнуто максимальное количество создания категории!')
                 return this.openNewRoute('/' + this.type)
             }
         }

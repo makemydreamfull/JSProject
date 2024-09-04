@@ -67,34 +67,24 @@ export class IncomeAndExpenses {
                 switch (item.id) {
                     case 'today':
                         IncomeAndExpenses.dataFromFilter = lastDay.toISOString().split('T')[0]
-                        IncomeAndExpenses.dataToFilter = null
-
                         break;
                     case  'week':
                         IncomeAndExpenses.dataFromFilter = lastWeek.toISOString().split('T')[0]
-                        IncomeAndExpenses.dataToFilter = null
                         break;
                     case 'month':
                         IncomeAndExpenses.dataFromFilter = lastMonth.toISOString().split('T')[0]
-                        IncomeAndExpenses.dataToFilter = null
 
                         break;
                     case  'year':
                         IncomeAndExpenses.dataFromFilter = lastYear.toISOString().split('T')[0]
-                        IncomeAndExpenses.dataToFilter = null
 
                         break;
                     case  'all':
-                            IncomeAndExpenses.dataFromFilter = null
-                            IncomeAndExpenses.dataToFilter = null
                         break;
                     case  'interval':
                         if (document.getElementById('dataFrom').value && document.getElementById('dataTo').value) {
                             IncomeAndExpenses.dataFromFilter = IncomeAndExpenses.dataFromFilter.split('T')[0]
                             IncomeAndExpenses.dataToFilter = IncomeAndExpenses.dataToFilter.split('T')[0]
-                        } else {
-                            IncomeAndExpenses.dataFromFilter = null
-                            IncomeAndExpenses.dataToFilter = null
                         }
                         break;
                     default:
@@ -161,7 +151,10 @@ export class IncomeAndExpenses {
                           fill="black"/>
                 </svg>
                 </a> `
-            document.getElementById('tbody').appendChild(trElement)
+            if(document.getElementById('tbody')){
+                document.getElementById('tbody').appendChild(trElement)
+            }
+
         }
         document.querySelectorAll('.trash').forEach((el) => {
             el.addEventListener('click', this.deleteElements.bind(this))
